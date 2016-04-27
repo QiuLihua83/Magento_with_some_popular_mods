@@ -1,0 +1,113 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Cart cross sell items template
+ *
+ * @see Mage_Checkout_Block_Cart_Crosssell
+ */
+ 	$confimg = new EM_EvaSettings_EvaSettings();
+	$w = $confimg->get_crosssell_width();
+	$h = $confimg->get_crosssell_height();
+	$bg = $confimg->get_crosssell_bgcolor();
+
+?>
+<?php if($this->getItemCount()): ?>
+<div class="crosssell">
+	<div class="crosssell-inner">
+	    <h2><?php echo $this->__('Based on your selection, you may be interested in the following items:') ?></h2>
+	    <ul id="crosssell-products-list">
+	    <?php $i=0;foreach ($this->getItems() as $_item): ?>
+			<?php $i++;?>
+	        <li id="<?php echo $this->__("slide-grid-product-"); echo $i; ?>" class="item">
+	            <a class="product-image" href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><img style="background-color:<?php echo $bg; ?>" src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize($w,$h); ?>" width="<?php echo $w;?>" height="<?php echo $h;?>" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+				 	<?php /*Mage::helper('productlabels')->display($_item);*/ ?>
+	               <div class="product-detail-slide" id="<?php echo $this->__("detail-slide-grid-product-"); echo $i; ?>">
+	                <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
+	                <?php echo $this->getPriceHtml($_item, true) ?>
+	                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+					<?php 
+						$storeId = Mage::app()->getStore()->getId();
+						Mage::getModel('review/review')->getEntitySummary($_item, $storeId);
+					?>
+					<?php if ($_item->getRatingSummary()->getReviewsCount()): ?>
+					
+						<div class="ratings">
+						<?php if ($_item->getRatingSummary()->getRatingSummary()):?>
+						<div class="rating-box">
+						<div class="rating" style="width:<?php echo $_item->getRatingSummary()->getRatingSummary() ?>%"></div>
+						</div>
+						<?php endif;?>
+						<span class="amount"><a href="#" onclick="var t = opener ? opener.window : window; t.location.href='<?php echo $_item->getRatingSummary()->getReviewsUrl() ?>'; return false;"><?php echo $this->__('%d Review(s)', $_item->getRatingSummary()->getReviewsCount()) ?></a></span>
+						</div>
+					<?php endif; ?>
+	            </div>
+				<script>
+					jQuery(function($) {
+
+					 $('#<?php echo $this->__("detail-slide-grid-product-"); echo $i; ?>').hide();
+
+
+					 $('#<?php echo $this->__("slide-grid-product-"); echo $i; ?>')
+					 .bind('mouseover', showMenu1)
+					 .bind('click', showMenu1)
+					 .bind('mouseout', hideMenu1);
+
+					 $('#<?php echo $this->__("detail-slide-grid-product-"); echo $i; ?>')
+					 .bind('mouseover', showMenu1)
+					 .bind('click', hideMenu1)
+					 .bind('mouseout', hideMenu1);
+
+					 var timeout = null;
+					 function hideMenu1() {
+					 if (timeout)
+					 clearTimeout(timeout);
+
+					 timeout = setTimeout(function() {
+					 timeout = null;
+					 $('#<?php echo $this->__("detail-slide-grid-product-"); echo $i; ?>').slideUp();
+					 }, 200);
+					 }
+
+					 function showMenu1() {
+					 if (timeout)
+					 clearTimeout(timeout);
+
+					 timeout = setTimeout(function() {
+					 timeout = null;
+					 $('#<?php echo $this->__("detail-slide-grid-product-"); echo $i; ?>').slideDown();
+					 }, 200);
+					 }
+					}); 
+					</script>
+	        </li>
+	    <?php endforeach; ?>
+	    </ul>
+	    <script type="text/javascript">decorateList('crosssell-products-list', 'none-recursive')</script>
+	</div>
+</div>
+<?php endif; ?>

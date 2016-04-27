@@ -1,0 +1,13 @@
+<?php
+$html = $this->getChildHtml();
+?>
+<div id="tabs">
+	<?php if ($this->countChildren() > 0 && $html != ''): ?>
+	<?php echo $this->getChildHtml() ;?>				
+	<?php endif ?>
+</div>
+<script type="text/javascript">
+			jQuery(function(){
+                jQuery('#tabs').tabs({ fx: { opacity: 'toggle', duration:'slow'} });    
+            });
+</script>

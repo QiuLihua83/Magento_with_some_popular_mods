@@ -1,0 +1,210 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$settings = new EM_EvaSettings_EvaSettings();
+?>
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<script type="text/javascript">
+//<![CDATA[
+	var urlSkinsite='<?php echo $this->getSKinUrl(); ?>';
+//]]>
+</script>
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+
+<style type="text/css">
+
+body { 
+	<?php if ($settings->get_body_font()): ?>
+	font: <?php echo $settings->get_body_font() ?>;
+	<?php endif ?>
+	
+	<?php if ($settings->get_body_bg_color()): ?>
+	background-color:<?php echo $settings->get_body_bg_color() ?>;
+	<?php endif ?>
+	
+	<?php if ($settings->get_body_bg_pattern()): ?>
+	background-image:url(<?php echo $this->getSkinUrl('images/'.$settings->get_body_bg_pattern()) ?>);
+	<?php endif ?>
+}
+
+<?php if ($settings->get_header_bg_image()): ?>
+.page { background-image:url(<?php echo $this->getSkinUrl('images/'.$settings->get_header_bg_image()) ?>); }
+<?php endif ?>
+	
+	
+<?php if ($settings->get_nav_bg_image()): ?>
+.nav-content { background-image:url(<?php echo $this->getSkinUrl('images/'.$settings->get_nav_bg_image()) ?>); }
+<?php endif ?>
+
+<?php if ($settings->get_link_color()): ?>
+a,
+.product-detail-slide button.btn-cart span span, 
+.product-special button.btn-cart span span, 
+#tabs .ui-tabs-panel ul li button.btn-cart span span { color:<?php echo $settings->get_link_color() ?>; }
+<?php endif ?>
+
+<?php if ($settings->get_caption_bg_color()): ?>
+.block .block-title,
+.latest-reviews h1,
+.product-special h1,
+.product-detail-slide .price-box, 
+.product-special .price-box, 
+#tabs .ui-tabs-panel ul li .price-box,
+.cart .discount h2,
+.cart .shipping h2,
+.cart .totals h2 {
+	background-color:<?php echo $settings->get_caption_bg_color() ?>;
+}
+<?php endif ?>
+
+<?php if ($settings->get_nav_text_color()): ?>
+.menu { color:$settings->get_nav_text_color(); }
+<?php endif ?>
+
+/* Top level menu */
+#nav a.level-top,
+.menu .submenu a { 
+	<?php if ($settings->get_nav_top_menu_font()): ?>
+	font:<?php echo $settings->get_nav_top_menu_font() ?> !important; 
+	<?php endif ?>
+	<?php if ($settings->get_nav_top_menu_text_color()): ?>
+	color:<?php echo $settings->get_nav_top_menu_text_color() ?>; 
+	<?php endif ?>
+}
+<?php if ($settings->get_nav_top_menu_text_hover_color()): ?>
+#nav a.level-top:hover,
+.menu .submenu:hover a { color:<?php echo $settings->get_nav_top_menu_text_hover_color() ?>; }
+<?php endif ?>
+
+/* Sub #1 menu */
+#nav li li a,
+.menu li.submenu div a { 
+	<?php if ($settings->get_nav_sub_menu_font()): ?>
+	font:<?php echo $settings->get_nav_sub_menu_font() ?> !important; 
+	<?php endif ?>
+	<?php if ($settings->get_nav_sub_menu_text_color()): ?>
+	color:<?php echo $settings->get_nav_sub_menu_text_color() ?> !important; 
+	<?php endif ?>
+}
+<?php if ($settings->get_nav_sub_menu_text_hover_color()): ?>
+#nav li li a,
+.menu li.submenu  div a:hover{ color:<?php echo $settings->get_nav_sub_menu_text_hover_color() ?> !important; }
+<?php endif ?>
+
+
+.block .block-title strong,
+.latest-reviews h1,
+.product-special h1,
+.cart .discount h2,
+.cart .shipping h2,
+.cart .totals h2 {
+	<?php if ($settings->get_block_title_font()): ?>
+	font:<?php echo $settings->get_block_title_font(); ?>;
+	<?php endif ?>
+	
+	<?php if ($settings->get_block_title_color()): ?>
+	color:<?php echo $settings->get_block_title_color(); ?>;
+	<?php endif ?>
+}
+
+<?php if ($settings->get_body_font()): ?>
+.block-subscribe .block-title strong { font:<?php echo $settings->get_body_font() ?> !important }
+<?php endif ?>
+
+<?php if ($settings->get_block_title_font()): ?>
+.widget .widget-title h2 { font:<?php echo $settings->get_block_title_font(); ?>; }
+<?php endif ?>
+
+
+<?php if ($settings->get_secondary_color()): ?>
+.price,
+#opc-login h3, 
+#opc-billing #billing1, 
+#opc-shipping #shipping1, 
+#shipping_method1, 
+.checkout-onepage-success h2.sub-title  {
+	color:<?php echo $settings->get_secondary_color() ?>;
+}
+<?php endif ?>
+
+</style>
+
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php echo $this->getIncludes() ?>
+<script>
+jQuery(function($) {
+
+ $('#block-cart').hide();
+
+
+ $('#topcartlink')
+ .bind('mouseover', showMenu)
+ .bind('click', showMenu)
+ .bind('mouseout', hideMenu);
+
+ $('#block-cart')
+ .bind('mouseover', showMenu)
+ .bind('click', hideMenu)
+ .bind('mouseout', hideMenu);
+
+ var timeout = null;
+ function hideMenu() {
+ if (timeout)
+ clearTimeout(timeout);
+
+ timeout = setTimeout(function() {
+ timeout = null;
+ $('#block-cart').slideUp();
+ }, 200);
+ }
+
+ function showMenu() {
+ if (timeout)
+ clearTimeout(timeout);
+
+ timeout = setTimeout(function() {
+ timeout = null;
+ $('#block-cart').slideDown();
+ }, 200);
+ }
+}); 
+</script>

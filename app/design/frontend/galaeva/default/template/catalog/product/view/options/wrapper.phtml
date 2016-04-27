@@ -1,0 +1,115 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+$emCfg = new EM_EvaSettings_EvaSettings ();
+
+$swatches = $emCfg->get_option_swatches();
+
+?>
+<div class="product-options" id="product-options-wrapper">
+    <?php echo $this->getChildHtml('', true, true);?>
+    <?php if ($this->hasRequiredOptions()):?>
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+    <?php endif;?>
+</div>
+<script type="text/javascript">decorateGeneric($$('#product-options-wrapper dl'), ['last']);</script>
+
+
+<!-- GALATHEMES: COLOR SWATCHES -->
+<script type="text/javascript">
+	document.observe('dom:loaded', function() {
+		var swatches = <?php echo Mage::helper('core')->jsonEncode($swatches); ?>;
+		
+		function find_swatch(key, value) {
+			for (var i in swatches) {
+				if (swatches[i].key == key && swatches[i].value == value)
+					return swatches[i];
+			}
+			return null;
+		}
+		
+		function has_swatch_key(key) {
+			for (var i in swatches) {
+				if (swatches[i].key == key)
+					return true;
+			}
+			return false;
+		}
+		
+		$$('#product-options-wrapper dt').each(function(dt) {
+			
+			// get custom option's label
+			var label = '';
+			$A(dt.down('label').childNodes).each(function(node) {
+				if (node.nodeType == 3) label += node.nodeValue;
+			});
+			label = label.trim();
+			
+			var dd = dt.next();
+			var select = dd.down('select');
+			if (select && has_swatch_key(label)) {
+				
+				// create swatches div, and append below the <select>
+				var sw = new Element('div', {'class': 'swatches-container'});
+				select.up().appendChild(sw);
+				
+				// hide select
+				select.setStyle({position: 'absolute', top: '-9999px'})
+				
+				$A(select.options).each(function(opt, i) {
+					if (opt.value) {
+						var elm;
+						var key = opt.innerHTML.trim();
+						
+						// remove price
+						if (opt.getAttribute('price')) key = key.replace(/\+([^+]+)$/, '').trim();
+						
+						var item = find_swatch(label, key);
+						if (item)
+							elm = new Element('img', {
+								src: '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA); ?>swatches/'+item.img, 
+								alt: opt.innerHTML, 
+								title: opt.innerHTML, 
+								'class': 'swatch-img'});
+						else {
+							elm = new Element('span', {'class': 'swatch-span'});
+							elm.update(opt.innerHTML);
+						}
+						elm.observe('click', function(event) {
+							select.selectedIndex = i;
+							var cur = sw.down('.current');
+							if (cur) cur.removeClassName('current');
+							elm.addClassName('current');
+						})
+						sw.appendChild(elm);
+					}
+				});
+				
+			}
+		});
+		
+		
+	});
+</script>

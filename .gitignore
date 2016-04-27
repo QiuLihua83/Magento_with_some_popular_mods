@@ -3,6 +3,7 @@
 .buildpath
 .modman
 .modgit
+downloader
 app/etc/local.xml
 app/etc/config.xml
 media

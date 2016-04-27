@@ -1,0 +1,14 @@
+<?php
+	$_helper    = $this->helper('catalog/output');
+	$category = Mage::getModel('catalog/layer')->getCurrentCategory();
+	 if ($_imgUrl = $category->getImageUrl()) {
+        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->htmlEscape($category->getName()).'" title="'.$this->htmlEscape($category->getName()).'" /></p>';
+        $_imgHtml = $_helper->categoryAttribute($category, $_imgHtml, 'image');
+    }
+?>
+<?php if($_imgUrl): ?>
+	
+	<div class="header-category">
+		<div class="header-category-img"><?php echo $_imgHtml ?></div>
+	</div>
+<?php endif; ?>

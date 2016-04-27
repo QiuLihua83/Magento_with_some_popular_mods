@@ -1,0 +1,107 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2011 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+$show_title = $this->getData('show_title');
+$show_title = !is_null($show_title) && $show_title != 'false' && $show_title != 'no' && $show_title != 0;
+$show_addtolinks = $this->getData('show_addtolinks');
+$show_addtolinks = !is_null($show_addtolinks) && $show_addtolinks != 'false' && $show_addtolinks != 'no' && $show_addtolinks != 0;
+$confimg = new EM_EvaSettings_EvaSettings();
+$w = $confimg->get_widget_width();
+$h = $confimg->get_widget_height();
+$bg = $confimg->get_widget_bgcolor();
+
+?>
+<?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
+<div class="widget widget-new-products">	
+    <div class="widget-products">
+	<div id="slideshow1" class="slideshow1">
+	<div class="slideshow-box">
+	<ul class="products-grid">
+    <?php $_columnCount = $this->getColumnCount(); ?>
+        <?php $i=0; foreach ($_products->getItems() as $_product): ?>
+            <li id="<?php echo $this->__("slide-grid-"); echo $i; ?>" class="item<?php if($i==0): ?> first<?php elseif($i==$_columnCount): ?> last<?php endif; ?>">
+				<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>" class="product-image"><img style="background-color:<?php echo $bg; ?>" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($w,$h) ?>" width="<?php echo $w;?>" height="<?php echo $h;?>" alt="<?php echo $this->stripTags($_product->getName(), null, true) ?>" /></a>
+				<?php /*Mage::helper('productlabels')->display($_product);*/ ?>
+                <div class="product-detail-slide" id="<?php echo $this->__("detail-slide-grid-"); echo $i; ?>">
+					 <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>)"><?php echo $this->helper('catalog/output')->productAttribute($_product, $_product->getName() , 'name') ?></a></h3>
+                <?php echo $this->getPriceHtml($_product, true, '-widget-new-grid') ?>
+                    <?php if ($_product->isSaleable()): ?>
+                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+					 <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                </div>
+				<script>
+			jQuery(function($) {
+
+			 $('#<?php echo $this->__("detail-slide-grid-"); echo $i; ?>').hide();
+
+
+			 $('#<?php echo $this->__("slide-grid-"); echo $i; ?>')
+			 .bind('mouseover', showMenu1)
+			 .bind('click', showMenu1)
+			 .bind('mouseout', hideMenu1);
+
+			 $('#<?php echo $this->__("detail-slide-grid-"); echo $i; ?>')
+			 .bind('mouseover', showMenu1)
+			 .bind('click', hideMenu1)
+			 .bind('mouseout', hideMenu1);
+
+			 var timeout = null;
+			 function hideMenu1() {
+			 if (timeout)
+			 clearTimeout(timeout);
+
+			 timeout = setTimeout(function() {
+			 timeout = null;
+			 $('#<?php echo $this->__("detail-slide-grid-"); echo $i; ?>').slideUp();
+			 }, 200);
+			 }
+
+			 function showMenu1() {
+			 if (timeout)
+			 clearTimeout(timeout);
+
+			 timeout = setTimeout(function() {
+			 timeout = null;
+			 $('#<?php echo $this->__("detail-slide-grid-"); echo $i; ?>').slideDown();
+			 }, 200);
+			 }
+			}); 
+			</script>
+            </li>
+			
+        <?php $i++; endforeach; ?>
+		     </ul>
+			 </div>
+				<a href="#" class="previous">Previous</a>
+				<a href="#" class="next">Next</a>
+			</div>
+    </div>
+</div>
+<?php endif; ?>

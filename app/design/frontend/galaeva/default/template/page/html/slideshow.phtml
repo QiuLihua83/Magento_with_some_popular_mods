@@ -1,0 +1,16 @@
+<?php
+$html = $this->getChildHtml();
+?>
+<?php if ($this->countChildren() > 0 && $html != ''): ?>
+	<div class="slideshow-wrapper">
+		<div class="slideshow-wrapper-inner">
+			<div id="slideshow" class="slideshow">
+				<div class="slideshow-box">
+					<?php echo $this->getChildHtml() ?>
+				</div>
+				<a href="#" class="previous">Previous</a>
+				<a href="#" class="next">Next</a>
+			</div>
+		</div>
+	</div>
+<?php endif ?>

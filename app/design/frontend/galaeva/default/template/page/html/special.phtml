@@ -1,0 +1,9 @@
+<?php
+$html = $this->getChildHtml();
+?>
+<div class="product-special">
+	<h1>Specials</h1>
+	<?php if ($this->countChildren() > 0 && $html != ''): ?>
+	<?php echo $this->getChildHtml() ;?>				
+	<?php endif ?>
+</div>
