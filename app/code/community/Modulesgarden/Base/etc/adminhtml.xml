@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <modulesgarden_base translate="title" module="modulesgarden_base">
+            <sort_order>4000</sort_order>
+            <title>ModulesGarden Base</title>
+            <children>
+                <installed_extensions module="modulesgarden_base">
+                    <sort_order>0</sort_order>
+                    <title>Installed Extensions</title>
+                    <action>adminhtml/system_config/edit/section/mgbase_installed_extensions</action>
+                </installed_extensions>
+                <installed_store module="modulesgarden_base">
+                    <sort_order>1</sort_order>
+                    <title>Store</title>
+                    <action>adminhtml/system_config/edit/section/mgbase_store</action>
+                </installed_store>
+                <plugins module="modulesgarden_base">
+                    <sort_order>2</sort_order>
+                    <title>Plugins</title>
+                    <children>
+                        <sliders module="modulesgarden_base">
+                            <sort_order>0</sort_order>
+                            <title>Sliders</title>
+                            <action>adminhtml/plugins_sliders</action>
+                        </sliders>
+                    </children>
+                </plugins>
+            </children>
+        </modulesgarden_base>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <mgbase_installed_extensions>
+                                        <title>Modulesgarden Base - Installed Extensions</title>
+                                    </mgbase_installed_extensions>
+                                    <mgbase_store>
+                                        <title>Modulesgarden Base - Store</title>
+                                    </mgbase_store>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <modulesgarden_base>
+                        <title>Modulesgarden Base Plugins</title>
+                        <sort_order>1500</sort_order>
+                        <children>
+                            <sliders translate="title">
+                                <title>Sliders</title>
+                            </sliders>
+                        </children>
+                    </modulesgarden_base>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

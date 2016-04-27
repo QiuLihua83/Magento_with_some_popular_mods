@@ -1,0 +1,9 @@
+.project
+.settings
+.buildpath
+.modman
+.modgit
+app/etc/local.xml
+app/etc/config.xml
+media
+var

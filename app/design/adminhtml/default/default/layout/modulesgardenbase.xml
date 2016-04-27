@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addCss">
+                <name>modulesgardenbase/css/modulesgarden.css</name>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+    
+    <adminhtml_plugins_sliders_index>
+        <reference name="head">
+            <action method="setTitle">
+                <title>Sliders / Plugins / ModulesGarden Base / Magento Admin</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="modulesgarden_base/adminhtml_plugins_sliders" name="modulesgarden_base_adminhtml_plugins_sliders" />
+        </reference>
+    </adminhtml_plugins_sliders_index>
+    
+    <adminhtml_plugins_sliders_edit>
+        <reference name="head">
+            <action method="setTitle">
+                <title>Slider Details / Plugins / ModulesGarden Base / Magento Admin</title>
+            </action>
+        </reference>
+        <reference name="left">
+            <block type="modulesgarden_base/adminhtml_plugins_sliders_tabs" name="modulesgarden_base_adminhtml_plugins_sliders_tabs" />
+        </reference>
+    </adminhtml_plugins_sliders_edit>
+
+    <adminhtml_plugins_banners_edit>
+        <reference name="head">
+            <action method="setTitle">
+                <title>Banner Details / Slider Details / Plugins / ModulesGarden Base / Magento Admin</title>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="modulesgarden_base/adminhtml_plugins_banners_edit" name="modulesgarden_base_adminhtml_plugins_banners_edit" />
+        </reference>
+    </adminhtml_plugins_banners_edit>
+</layout>

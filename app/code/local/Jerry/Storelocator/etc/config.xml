@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is under the Magento root directory in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * @category    Jerry
+ * @package     Jerry_Storelocator
+ * @copyright   Copyright (c) 2015 Qun WU. (http://www.jerrywebsolutions.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Jerry_Storelocator>
+            <version>1.0.5</version>
+        </Jerry_Storelocator>
+    </modules>
+    <global>
+        <models>
+            <storelocator>
+                <class>Jerry_Storelocator_Model</class>
+                <resourceModel>storelocator_resource</resourceModel>
+            </storelocator>
+            <storelocator_resource>
+                <class>Jerry_Storelocator_Model_Resource</class>
+                <entities>
+                    <storelocator>
+                        <table>storelocator</table>
+                    </storelocator>
+                </entities>
+            </storelocator_resource>
+        </models>
+        <resources>
+            <storelocator_setup>
+                <setup>
+                    <module>Jerry_Storelocator</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </storelocator_setup>
+            <storelocator_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </storelocator_write>
+            <storelocator_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </storelocator_read>
+        </resources>
+        <helpers>
+            <storelocator>
+                <class>Jerry_Storelocator_Helper</class>
+            </storelocator>
+        </helpers>
+        <blocks>
+            <storelocator>
+                <class>Jerry_Storelocator_Block</class>
+            </storelocator>
+        </blocks>
+
+    </global>
+    <frontend>
+        <routers>
+            <storelocator>
+                <use>standard</use>
+                <args>
+                    <module>Jerry_Storelocator</module>
+                    <frontName>storelocator</frontName>
+                </args>
+            </storelocator>
+        </routers><layout>
+            <updates>
+                <storelocator>
+                    <file>storelocator.xml</file>
+                </storelocator>
+            </updates>
+        </layout>  
+    </frontend>
+    <admin>
+        <routers>
+            <storelocator>
+                <use>admin</use>
+                <args>
+                    <module>Jerry_Storelocator</module>
+                    <frontName>storelocator</frontName>
+                </args>
+            </storelocator>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <storelocator module="storelocator">
+                <title>Storelocator</title>
+                <sort_order>71</sort_order>               
+                <children>
+                    <stores module="storelocator">
+                        <title>Manage Stores</title>
+                        <sort_order>0</sort_order>
+                        <action>storelocator/adminhtml</action>
+                    </stores>
+                </children>
+            </storelocator>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <storelocator translate="title" module="storelocator">
+                            <title>Storelocator</title>
+                            <sort_order>10</sort_order>
+
+                            <children>
+                                <stores translate="title" module="storelocator">
+                                    <title>Manage Stores</title>
+                                </stores>
+                            </children>
+                        </storelocator>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <storelocator>
+                    <file>storelocator.xml</file>
+                </storelocator>
+            </updates>
+        </layout>
+    </adminhtml>    
+    <default>
+
+    </default>    
+</config>

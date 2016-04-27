@@ -1,0 +1,133 @@
+<?php
+
+$session = Mage::getSingleton('checkout/session');
+$_order = Mage::getModel('sales/order');
+
+$_order->loadByIncrementId($session->getLastRealOrderId());
+?>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://libs.baidu.com/jqueryui/1.10.2/jquery-ui.min.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(function() {
+	jQuery( "#paycenter_area" ).tabs();
+});
+</script>
+
+<div class="shortcut_wrapper">
+    <div class="shortcut_price">
+        <p class="price">支付金额：<span class="red"><?php echo $this->helper('checkout')->formatPrice($_order->getGrandTotal()) ?> </span></span></p>
+        <p><span>类型：<span id="lblType">订单</span></span><span>编号：<span id="lblNo"><?php echo ($_order->getRealOrderId()) ?> </span></span></p>
+    </div>
+          
+    <div class="shortcut_content shortcut_content02">
+        <div id="paycenter_area">
+            <ul style="border-bottom: 1px solid #ff8e42;height: 38px;">
+                <li><a href="#tabs-1"><h4><span  >支付平台</span></h4></a></li>
+                <li><a href="#tabs-2"><h4><span  >网上银行</span></h4></a></li>
+            </ul>
+            <div style="clear:both;"></div>
+            
+            
+            
+            <div id="tabs-1" >
+
+                    <div class="shortcut_bank_list list_deep">
+                        <h5><span class="icon"></span><span>支付平台</span></h5>
+                        <div class="shortcut_bank_box"> 
+                        <ul  class="shortcut_bank_table shortcut_bank_web">
+
+                        <li class="bank_item">
+                        <p class="bank_select" ><input type="radio" name="bank" checked="checked"><span class="pic"><img src="<?php echo $this->getSkinUrl('images/logoL.png'); ?>" id="Repeater2_ctl03_imgBank2" width="113" height="36"></span></p>
+                        <p class="hint">微博钱包</p>                  
+                        </li>      
+                        </ul>
+                        </div>
+                    </div>
+                    <button type="submit" title="下订单" class="button btn-checkout" onclick="go_pay('<?php echo $this->getUrl('sinapay/payment/redirect'); ?>');"><span><span>下订单</span></span></button>
+                    <?php
+                    //echo $this->getChildHtml('redirect');
+                    ?>
+            </div>   
+            
+            <div id="tabs-2" >
+
+                    <div class="shortcut_bank_list list_deep">
+                        <h5><span class="icon"></span><span>网上银行</span></h5>
+                        <div class="shortcut_bank_box"> 
+                        <ul  class="shortcut_bank_table shortcut_bank_web">
+
+
+<?php
+
+
+$banks_options = Mage::getModel("sinapay/source_banks")->toOptionArray();
+foreach($banks_options as $banks_option){
+?>
+
+                        <li class="bank_item">
+                        <p class="bank_select" ><input type="radio" onclick="setBank('<?php echo $banks_option['value']; ?>');" name="bank"  value="<?php echo $banks_option['value']; ?>"><span title="<?php echo $banks_option['label']; ?>" class="<?php echo $banks_option['value']; ?> icon"></span></p>                  
+                        </li>  
+<?php
+}
+
+?>                       
+                        </ul>
+                        </div>
+                    </div>
+                    <button type="submit" title="下订单" class="button btn-checkout" onclick="go_pay('<?php echo $this->getUrl('sinapay/payment/redirect'); ?>',globalbank);"><span><span>下订单</span></span></button>
+                   
+            </div>   
+            
+        </div>
+    </div>
+  <div class="bottom_hint">
+    <div><a href="<?php echo $this->getUrl('sales/order/view',array('order_id'=>$_order->getId())); ?>" target="_blank">查看订单详情&gt;&gt;</a></div>
+    <div class="title">付款遇到问题：</div>
+    <p>联系我们 <span class="gray"> 客服帮助您解决支付过程中遇到的困难 <a href="<?php echo $this->getUrl('contacts'); ?>" target="_blank" >客服中心</a> </span></p>
+    <div><a href="https://help.pay.sina.com.cn" target="_blank">微博钱包帮助中心&nbsp;&gt;&gt;</a></div>
+  </div>
+</div>
+
+<div class="popup-wrap popup-orderEnd" style="display:none;" id="go_pay_window">
+    <div class="popup-title">
+        <h3>温馨提示</h3>
+        <a class="btn-popup-close" href="javascript:window_close();"></a>
+    </div>
+    <div class="popup-cont">
+        <p><i class="icon icon-warn-normal"></i>请您到新打开网银页面上进行支付，支付完成前请不要关闭该窗口。</p>
+        <p class="btn-bar">
+            <button class="button btn-checkout" id="pay_suc_link" onclick="setLocation('<?php echo $this->getUrl('sales/order/view',array('order_id'=>$_order->getId())); ?>');"><span><span>已完成支付</span></span></button>
+            <button class="button btn-checkout" id="pay_fail_link" onclick="setLocation('<?php echo $this->getUrl('contacts'); ?>');"><span><span>支付遇到问题</span></span></button>
+        </p>
+    </div>
+</div>
+<div class="popup-wrap popup-orderEnd" style="display:none;"  id="go_pay_error_window">
+    <div class="popup-title">
+        <h3>温馨提示</h3>
+        <a class="btn-popup-close" href="javascript:window_close();"></a>
+    </div>
+    <div class="popup-cont">
+        <p><i class="icon icon-warn-normal"></i>如果您的支付遇到问题，请查看<a href="http://support.dangdang.com/helpcenter/api_cms/helpcenter/index/index.shtml" id="pay_help_link" target="_blank">支付帮助</a>，或致电客服010-51236699、400-1066666</p>
+    </div>
+</div>
+<div class="popup-wrap popup-orderEnd" style="display:none;"  id="pay_fin_window">
+    <div class="popup-title">
+        <h3>温馨提示</h3>
+        <a class="btn-popup-close" href="javascript:window_close();"></a>
+    </div>
+    <div class="popup-cont">
+        <p><i class="icon icon-success-normal"></i>如果您已经完成支付，请查看<a href="http://order.dangdang.com/myallorders" id="order_list_link2" target="_blank">订单详情</a></p>
+    </div>
+</div>
+<div class="popup-wrap popup-orderEnd" style="display:none;"  id="pay_fin_continue_submit_window">
+    <div class="popup-title">
+        <h3>温馨提示</h3>
+        <a class="btn-popup-close" href="javascript:window_close();"></a>
+    </div>
+    <div class="popup-cont">
+        <p><i class="icon icon-success-normal"></i>如果您已经完成支付，请查看<a href="http://order.dangdang.com/myallorders" id="order_list_link">订单详情</a></p>
+        <p id="presubmit_order_num" class="p-f12">提示：您还有 0 张“待提交”订单</p>
+        <p class="btn-bar"><a href="http://shopping.dangdang.com/shoppingcart/dispart_order.aspx" id="continue_submit_link" class="btn btn-small-orange mr-10" target="_blank">继续提交</a><a href="javascript:window_close();" class="btn btn-small-grey">取&nbsp;&nbsp;消</a></p>
+   </div>
+</div>

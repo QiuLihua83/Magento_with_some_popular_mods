@@ -1,0 +1,40 @@
+1.配置站点
+  拷贝apache站点配置文件dev_cloudserivce/trunk/tools/mall_cloudream_apache.conf至你的本地apache配置目录的自动加载目录下；
+  如：centos:/etc/httpd/conf.d/
+      mac:   /etc/apache2/other/
+      win:   c:\xampp\apache\conf\extra\httpd-vhosts.conf
+   修改mall_cloudream_apache.conf中源代码目录路径为dev_cloudserivce/trunk的路径；
+   修改源码根目录dev_cloudserivce/trunk的权限；
+   运行dev_cloudserivce/trunk/tools/chmod.sh
+   重启apache服务器；
+     sudo httpd -t
+     sudo httpd -k restart
+
+2.建立基础配置数据库
+  通过http://192.168.1.214/phpmyadmin (root cloudream)导出数据库yzm_mall到本地；
+  在本地数据库建立数据库yzm_mall,并通过数据库工具导入上一步导出的数据文件到本地数据库yzm_mall；
+  在本地数据库建立用户yzmadmin/yzm123456，并授予操作数据库yzm_mall的所有权限；
+3.配置本地域名解析
+  配置内容：
+  127.0.0.1    mall.cloudream.com
+  127.0.0.1    mbmall.cloudream.com
+  配置路径：
+  centos：/etc/hosts
+  mac:    /etc/hosts
+  win:    c:\Windows\System32\drivers\etc\hosts
+
+4.访问站点
+  前台：      mall.cloudream.com
+  手机版前台： mbmall.cloudream.com
+  管理后台：   mall.cloudream.com/admin  (admin/yzm123456)
+
+附：
+1.访问局域网开发环境的方法：
+在本地配置域名：
+  192.168.1.214    mall.cloudream.com
+  192.168.1.214    mbmall.cloudream.com
+
+2.访问局域网样例网站方法：
+在本地配置域名：
+  192.168.1.214    mall1921.cloudream.com
+
